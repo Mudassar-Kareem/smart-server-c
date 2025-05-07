@@ -6,7 +6,6 @@ import { LiaShoppingBagSolid } from "react-icons/lia";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { RiShoppingBag3Line } from "react-icons/ri";
 import {orderData} from "../../data/Order"
-import { menuItems } from "../../data/Menu";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -19,6 +18,7 @@ import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const {user} = useSelector((state)=> state.user);
+  const {menuItems} = useSelector((state)=> state.menu);
     const recentOrders = orderData.slice(0,5).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     const totalmenu = menuItems.length;
     const totalOrder = orderData.length;

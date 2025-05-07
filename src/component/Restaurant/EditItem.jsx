@@ -1,4 +1,7 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { server } from "../../server";
+import toast from "react-hot-toast";
 
 const EditItem = ({ item, open, close }) => {
   const [image, setImage] = useState();
@@ -7,12 +10,44 @@ const EditItem = ({ item, open, close }) => {
   const [price, setPrice] = useState("");
   useEffect(() => {
     if (item) {
-      setImage(item.images[0]?.url || "");
+      setImage(item.image || "");
       setName(item.name);
       setCategory(item.category);
       setPrice(item.price);
     }
   }, [item]);
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.put(`${server}/menu/update/${item._id}`,{image, name, category, price}, {withCredentials: true}).then((res)=>{
+      toast.success(res.data.message);
+      close();
+      window.location.reload();
+    }).catch((err)=>{
+      toast.error(err.response.data.message);
+    })
+
+  }
+  const handleImage = async(e) =>{
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "Restaurant-isris"); // replace this with your preset
+  
+    try {
+      const res = await fetch("https://api.cloudinary.com/v1_1/dt6skdss9/image/upload", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const data = await res.json();
+      setImage(data.secure_url); // set image URL to state
+    } catch (error) {
+      console.error("Cloudinary upload failed", error);
+    }
+
+  }
   const handleChangeImage = ()  =>{
     document.getElementById("image").click();
   }
@@ -29,7 +64,7 @@ const EditItem = ({ item, open, close }) => {
             &times;
           </span>
         </div>
-        <form action="" className="space-x-4">
+        <form onSubmit={handleSubmit} className="space-x-4">
           <div
             className={`flex  flex-col justify-center items-center mt-7 rounded-lg cursor-pointer ${
               image
@@ -41,7 +76,7 @@ const EditItem = ({ item, open, close }) => {
             {image ? (
               <img
                 src={image}
-                className="w-full h-auto max-h-[250px] object-contain rounded-lg"
+                className="w-full h-auto max-h-[220px] object-contain rounded-lg"
                 alt="Uploaded Item"
               />
             ) : null}
@@ -50,7 +85,7 @@ const EditItem = ({ item, open, close }) => {
               id="image"
               name="image"
               className="hidden"
-              onChange={(e) => setImage(URL.createObjectURL(e.target.files[0]))}
+              onChange={handleImage}
               accept="image/*"
             />
           </div>
@@ -63,6 +98,7 @@ const EditItem = ({ item, open, close }) => {
                     <select  value={category} onChange={(e)=>setCategory(e.target.value)} className=' p-2 outline-none border rounded-sm border-gray-200 focus:ring-1 focus:ring-green-600'>
                         <option value="" disabled selected>Select Category</option>
                         <option value="Pizza">Pizza</option>
+                        <option value="BBQ">BBQ</option>
                         <option value="Burger">Burger</option>
                         <option value="Salad">Salad</option>
                         <option value="Pasta">Pasta</option>

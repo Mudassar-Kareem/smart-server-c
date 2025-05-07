@@ -4,6 +4,9 @@ import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMenuItems } from "../../redux/action/menu";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import { server } from "../../server";
+import toast from "react-hot-toast";
 const CreatOrder = () => {
   const {id: restaurantId} =useParams()
   const {menuItems} = useSelector((state)=> state.menu)
@@ -42,6 +45,20 @@ const CreatOrder = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+    axios.post(`${server}/order/create`,{restaurantId,tableNo,name,phone,items:selectedItems},{withCredentials:true}).then((res)=>{
+      toast.success(res.data.message)
+      setSelectedItems({})
+      setOpen(false)
+      setTableNo("")
+      setName("")
+      setPhone("")
+    }).catch((err)=>{
+      toast.error(err.response.data.message)
+    })
+  }
 
   return (
     <div className="my-8 mx-3">
@@ -85,6 +102,7 @@ const CreatOrder = () => {
         setName={setName}
         phone={phone}
         setPhone={setPhone}
+        handleSubmit={handleSubmit}
       />
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
         {filterItem.map((item) => (
@@ -140,6 +158,7 @@ const Cart = ({
   setName,
   phone,
   setPhone,
+  handleSubmit
 }) => {
   return (
     <div
@@ -207,7 +226,9 @@ const Cart = ({
             <div className="text-right mt-4 font-semibold">
               Total: Rs {totalPrice}
             </div>
-            <button className="mt-4 p-2 w-full bg-green-600 text-white rounded">
+            <button
+            onClick={handleSubmit}
+            className="mt-4 p-2 w-full bg-green-600 text-white rounded">
               Submit Order
             </button>
           </div>

@@ -14,6 +14,9 @@ import AddItem from '../../component/Restaurant/AddItem';
 import EditItem from '../../component/Restaurant/EditItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllMenuItems } from '../../redux/action/menu';
+import axios from 'axios';
+import { server } from '../../server';
+import toast from 'react-hot-toast';
 
 const MenuItems = () => {
  const {user} = useSelector((state)=> state.user)
@@ -29,6 +32,15 @@ const MenuItems = () => {
   useEffect(()=>{
     dispatch(getAllMenuItems(restaurantId))
   },[dispatch,restaurantId])
+
+  const handleDelete = (id) => {
+    axios.delete(`${server}/menu/delete/${id}`,{withCredentials:true}).then((res)=>{
+      toast.success(res.data.message)
+      window.location.reload()
+    }).catch((err)=>{
+      toast.error(err.response.data.message)
+    })
+  }
   
   const handleEditClick = (item) =>{
     setEdit(true),
@@ -145,7 +157,7 @@ const MenuItems = () => {
               </Paper>
             </div>
             <EditItem open={edit} close = {()=> setEdit(false)} item={selectItem}/>
-            <DeleteItem open={del} close={()=> setDel(false)} item={del}  />
+            <DeleteItem open={del} close={()=> setDel(false)} item={del}  handleDelete={handleDelete} />
             
         </div>
     </div>
@@ -154,7 +166,7 @@ const MenuItems = () => {
 
 export default MenuItems
 
-const DeleteItem = ({open,close,item}) =>{
+const DeleteItem = ({open,close,item,handleDelete}) =>{
   return(
     <div>
     {open && (
@@ -172,7 +184,7 @@ const DeleteItem = ({open,close,item}) =>{
             </button>
             <button
               className="bg-green-600 text-white px-4 py-2 rounded-md transition hover:scale-105"
-             
+              onClick={() =>handleDelete(item._id) || close()}
             >
               Yes
             </button>

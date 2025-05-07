@@ -40,6 +40,7 @@ const AddItem = ({open,close}) => {
             setCategory("");
             setPrice("");
             close();
+            window.location.reload()
         }).catch((error)=>{
             toast.error(error.response.data.message);
         })
