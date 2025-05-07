@@ -48,7 +48,8 @@ const CreatOrder = () => {
 
   const handleSubmit = (e) =>{
     e.preventDefault();
-    axios.post(`${server}/order/create`,{restaurantId,tableNo,name,phone,items:selectedItems},{withCredentials:true}).then((res)=>{
+    console.log(restaurantId)
+    axios.post(`${server}/order/create`,{restaurantId,tableNo,name,phone,items: Object.values(selectedItems),totalPrice},{withCredentials:true}).then((res)=>{
       toast.success(res.data.message)
       setSelectedItems({})
       setOpen(false)
