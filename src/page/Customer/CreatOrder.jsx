@@ -6,7 +6,6 @@ import { getAllMenuItems } from "../../redux/action/menu";
 import { useParams } from "react-router-dom";
 const CreatOrder = () => {
   const {id: restaurantId} =useParams()
-  console.log(restaurantId)
   const {menuItems} = useSelector((state)=> state.menu)
   const [filter, setFilter] = useState("all");
   const [selectedItems, setSelectedItems] = useState({});
