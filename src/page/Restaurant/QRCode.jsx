@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 const QRCode = () => {
   const {user} = useSelector((state) => state.user);
   const restaurantId = user && user._id;
-  const menuUrl =  `http://localhost:5173/create-order/${restaurantId}`; 
+  const menuUrl =  `https://smartserve-seven.vercel.app/create-order/${restaurantId}`; 
 
   const downloadQR = () => {
     const canvas = document.querySelector("canvas");
