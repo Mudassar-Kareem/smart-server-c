@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { menuItems } from "../../data/Menu";
 import { BiMinus, BiPlus } from "react-icons/bi";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMenuItems } from "../../redux/action/menu";
+import { useParams } from "react-router-dom";
 const CreatOrder = () => {
-  const {user} = useSelector((state)=> state.user)
-  const restaurantId = user && user._id
+  const {id: restaurantId} =useParams()
+  console.log(restaurantId)
   const {menuItems} = useSelector((state)=> state.menu)
   const [filter, setFilter] = useState("all");
   const [selectedItems, setSelectedItems] = useState({});
@@ -94,14 +94,14 @@ const CreatOrder = () => {
             className="bg-white rounded-2xl shadow-md border p-4"
           >
             <img
-              src={item.images && item.images[0]?.url}
+              src={item.image && item.image}
               alt={item.name}
               className="w-full h-48 object-cover"
             />
             <div className="flex justify-between items-center mt-2">
               <h2 className="text-lg font-semibold">{item.name}</h2>
               <span className="text-green-600 font-semibold">
-                £{item.price}
+              ₨ {item.price}
               </span>
             </div>
             <div className="flex justify-center items-center gap-2 pt-2">
@@ -180,7 +180,7 @@ const Cart = ({
                   >
                     +
                   </button>
-                  <span className="ml-4">${item.price * item.quantity}</span>
+                  <span className="ml-4">Rs {item.price * item.quantity}</span>
                 </div>
               </div>
             ))}
@@ -206,7 +206,7 @@ const Cart = ({
               className=" mt-4 w-full border border-gray-200 p-1 outline-none focus:ring-1 focus:ring-green-600"
             />
             <div className="text-right mt-4 font-semibold">
-              Total: ${totalPrice}
+              Total: Rs {totalPrice}
             </div>
             <button className="mt-4 p-2 w-full bg-green-600 text-white rounded">
               Submit Order

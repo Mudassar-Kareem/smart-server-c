@@ -120,7 +120,7 @@ const MenuItems = () => {
                           <TableCell>{index + 1}</TableCell>
                           <TableCell>{item.name}</TableCell>
                           <TableCell>{item.category}</TableCell>
-                          <TableCell>{item.price}</TableCell>
+                          <TableCell>Rs {item.price}</TableCell>
                           <TableCell>
                           <div className="flex gap-4">
                             <button

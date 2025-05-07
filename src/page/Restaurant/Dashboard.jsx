@@ -180,7 +180,7 @@ const Dashboard = () => {
                             })()}
                           </div></TableCell>
                         <TableCell>3</TableCell>
-                        <TableCell>{order.totalPrice}</TableCell>
+                        <TableCell>Rs {order.totalPrice}</TableCell>
                         <TableCell> <button
                            
                             className={`${

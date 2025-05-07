@@ -7,7 +7,7 @@ const QRCode = () => {
   const {user} = useSelector((state) => state.user);
   const restaurantId = user && user._id;
   const menuUrl =  `https://smartserve-seven.vercel.app/create-order/${restaurantId}`; 
-
+//https://smartserve-seven.vercel.app/create-order/${restaurantId}
   const downloadQR = () => {
     const canvas = document.querySelector("canvas");
     const url = canvas.toDataURL();
