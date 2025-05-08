@@ -3,7 +3,7 @@ import { BiMinus, BiPlus } from "react-icons/bi";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMenuItems } from "../../redux/action/menu";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { server } from "../../server";
 import toast from "react-hot-toast";
@@ -17,6 +17,7 @@ const CreatOrder = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getAllMenuItems(restaurantId));
   }, [dispatch, restaurantId]);
@@ -68,6 +69,7 @@ const CreatOrder = () => {
         setTableNo("");
         setName("");
         setPhone("");
+        navigate("/order-succes")
       })
       .catch((err) => {
         toast.error(err.response.data.message);

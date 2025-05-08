@@ -14,6 +14,7 @@ import { loadUser } from "./redux/action/user";
 import { getAllMenuItems } from "./redux/action/menu";
 import { getAllOrders } from "./redux/action/order";
 import Admin from "./page/Admin/Admin";
+import ThankYou from "./page/Customer/ThankYou";
 
 const App = () => {
   const {user} = useSelector((state)=> state.user);
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/create-order/:id" element={<CreateOrder />} />
         <Route path="/admin" element={<Admin/>}/>
+        <Route path="/order-succes" element={<ThankYou/>}/>
       </Routes>
       <Toaster />
     </>
