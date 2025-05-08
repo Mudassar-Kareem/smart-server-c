@@ -13,24 +13,31 @@ const Login = () => {
   const [visible, setVisible] = useState(false);
   const [loading,setLoading] = useState(false);
   const navigate = useNavigate();
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post(`${server}/user/login`, {email,password}, {withCredentials: true}).then((res) => {
-      toast.success(res.data.message)
+    setLoading(true); // Start loading
+  
+    try {
+      const res = await axios.post(
+        `${server}/user/login`,
+        { email, password },
+        { withCredentials: true }
+      );
+      toast.success(res.data.message);
       setEmail("");
       setPassword("");
-      if(res.data.user.role === "admin") {
-        navigate("/admin")
+      if (res.data.user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
       }
-      else {
-        navigate("/dashboard")
-      }
-
-    }).catch((error) => {
-      toast.error(error.response.data.message)
-    })
-
-  }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+  
   return (
     <div className=" min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200 ">
       <div className=" w-full max-w-xl bg-white py-10 px-8 shadow-xl rounded-xl">
@@ -82,12 +89,15 @@ const Login = () => {
                             )}
           </div>
           <button
-          type="submit"
-          disabled={loading}
-          className={`w-full py-2 rounded-full bg-green-500 text-white font-semibold  ${loading ? 'bg-green-300 cursor-not-allowed' : 'bg-green-500 hover:bg-green-700'}` }
-        >
-          {loading ? "Loging ..." : "Log In"}
-          </button>
+  type="submit"
+  disabled={loading}
+  className={`w-full py-2 rounded-full text-white font-semibold ${
+    loading ? "bg-green-300 cursor-not-allowed" : "bg-green-500 hover:bg-green-700"
+  }`}
+>
+  {loading ? "Logging in..." : "Log in"}
+</button>
+
           <div className="text-center mt-6">
             <span className="text-sm text-gray-600">
             Don't have an account?

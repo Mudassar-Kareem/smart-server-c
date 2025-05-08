@@ -57,7 +57,7 @@ const Admin = () => {
   return (
     <div className="flex min-h-screen font-outfit bg-gray-100">
       <div className="w-64 bg-gradient-to-b from-green-600 to-green-800 text-white flex flex-col py-8 px-6 shadow-lg rounded-r-xl">
-  <h2 className="text-3xl font-serif italic font-semibold mb-10 tracking-wide text-center">IRIS POS</h2>
+  <h2 className="text-3xl font-serif italic font-semibold mb-10 tracking-wide text-center">Smart Serve</h2>
   <nav className="space-y-4">
     <Link
       to="/admin"

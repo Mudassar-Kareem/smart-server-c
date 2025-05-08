@@ -25,9 +25,16 @@ const Signup = () => {
   const navigate = useNavigate();
   const [loading,setLoading] = useState(false)
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post(`${server}/user/register`,{restaurantName,address,type,contactNo,name,email,password},{withCredentials:true}).then((res)=>{
+    setLoading(true); // Start loading
+  
+    try {
+      const res = await axios.post(
+        `${server}/user/register`,
+        { restaurantName, address, type, contactNo, name, email, password },
+        { withCredentials: true }
+      );
       toast.success(res.data.message);
       setRestaurantName("");
       setAddress("");
@@ -37,10 +44,13 @@ const Signup = () => {
       setEmail("");
       setPassword("");
       navigate("/login");
-    }).catch((error)=>{
-      toast.error(error.response.data.message);
-    })
-  }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+  
   
  
 
