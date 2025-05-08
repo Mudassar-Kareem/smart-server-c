@@ -8,18 +8,18 @@ import axios from "axios";
 import { server } from "../../server";
 import toast from "react-hot-toast";
 const CreatOrder = () => {
-  const {id: restaurantId} =useParams()
-  const {menuItems} = useSelector((state)=> state.menu)
+  const { id: restaurantId } = useParams();
+  const { menuItems } = useSelector((state) => state.menu);
   const [filter, setFilter] = useState("all");
   const [selectedItems, setSelectedItems] = useState({});
   const [open, setOpen] = useState(false);
   const [tableNo, setTableNo] = useState("");
-  const [name,setName] = useState("");
-  const [phone,setPhone] = useState("");
-  const dispatch = useDispatch()
-  useEffect(()=>{
-    dispatch(getAllMenuItems(restaurantId))
-  },[dispatch,restaurantId])
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllMenuItems(restaurantId));
+  }, [dispatch, restaurantId]);
   const categories = [...new Set(menuItems.map((item) => item.category))];
   const filterItem =
     filter === "all"
@@ -46,20 +46,33 @@ const CreatOrder = () => {
     0
   );
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(restaurantId)
-    axios.post(`${server}/order/create`,{restaurantId,tableNo,name,phone,items: Object.values(selectedItems),totalPrice},{withCredentials:true}).then((res)=>{
-      toast.success(res.data.message)
-      setSelectedItems({})
-      setOpen(false)
-      setTableNo("")
-      setName("")
-      setPhone("")
-    }).catch((err)=>{
-      toast.error(err.response.data.message)
-    })
-  }
+    axios
+      .post(
+        `${server}/order/create`,
+        {
+          restaurantId,
+          tableNo,
+          name,
+          phone,
+          items: Object.values(selectedItems),
+          totalPrice,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        toast.success(res.data.message);
+        setSelectedItems({});
+        setOpen(false);
+        setTableNo("");
+        setName("");
+        setPhone("");
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
+  };
 
   return (
     <div className="my-8 mx-3">
@@ -119,7 +132,7 @@ const CreatOrder = () => {
             <div className="flex justify-between items-center mt-2">
               <h2 className="text-lg font-semibold">{item.name}</h2>
               <span className="text-green-600 font-semibold">
-              ₨ {item.price}
+                ₨ {item.price}
               </span>
             </div>
             <div className="flex justify-center items-center gap-2 pt-2">
@@ -159,7 +172,7 @@ const Cart = ({
   setName,
   phone,
   setPhone,
-  handleSubmit
+  handleSubmit,
 }) => {
   return (
     <div
@@ -203,14 +216,14 @@ const Cart = ({
                 </div>
               </div>
             ))}
-             <input
+            <input
               type="text"
               placeholder="Enter Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className=" mt-4 w-full border border-gray-200 p-1 outline-none focus:ring-1 focus:ring-green-600"
             />
-             <input
+            <input
               type="text"
               placeholder="Enter Phone No"
               value={phone}
@@ -228,8 +241,9 @@ const Cart = ({
               Total: Rs {totalPrice}
             </div>
             <button
-            onClick={handleSubmit}
-            className="mt-4 p-2 w-full bg-green-600 text-white rounded">
+              onClick={handleSubmit}
+              className="mt-4 p-2 w-full bg-green-600 text-white rounded"
+            >
               Submit Order
             </button>
           </div>

@@ -18,7 +18,7 @@ const Login = () => {
       toast.success(res.data.message)
       setEmail("");
       setPassword("");
-      if(res.data.user.role === "Admin") {
+      if(res.data.user.role === "admin") {
         navigate("/admin")
       }
       else {

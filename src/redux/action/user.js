@@ -12,10 +12,28 @@ export const loadUser = () => async (dispatch) => {
       payload: data.user,
     });
   } catch (error) {
-    console.log("Error response:", error.response);
+
     dispatch({
       type: "LoadUserFail",
       payload: error.response.data.message,
     });
   }
 };
+
+export const allUser = () => async (dispatch) =>{
+  try {
+    dispatch({
+      type: "allUserRequest",
+    })
+    const {data} = await axios.get(`${server}/user/all-user`,{withCredentials:true});
+    dispatch({
+      type: "allUserSuccess",
+      payload: data.users,
+    });
+  } catch (error) {
+    dispatch({
+      type: "allUserFail",
+      payload: error.response.data.message,
+    });
+  }
+}

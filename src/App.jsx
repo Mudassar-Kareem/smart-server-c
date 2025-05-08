@@ -9,14 +9,21 @@ import CreateOrder from "./page/Customer/CreatOrder";
 import QRCode from "./page/Restaurant/QRCode";
 import Profile from "./page/Restaurant/Profile";
 import { Toaster } from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./redux/action/user";
+import { getAllMenuItems } from "./redux/action/menu";
+import { getAllOrders } from "./redux/action/order";
+import Admin from "./page/Admin/Admin";
 
 const App = () => {
+  const {user} = useSelector((state)=> state.user);
+    const restaurantId = user && user._id
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadUser());
-  }, [dispatch]);
+    dispatch(getAllOrders())
+        dispatch(getAllMenuItems(restaurantId))
+  }, [dispatch,restaurantId]);
   return (
     <>
       <Routes>
@@ -29,6 +36,7 @@ const App = () => {
         <Route path="/qr-code" element={<QRCode />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/create-order/:id" element={<CreateOrder />} />
+        <Route path="/admin" element={<Admin/>}/>
       </Routes>
       <Toaster />
     </>

@@ -22,6 +22,20 @@ export const userReducer = createReducer(initialState,(builder)=>{
       state.loading = false;
       state.error = action.payload;
     })
+
+    // all user reducer
+    .addCase("allUserRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("allUserSuccess", (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    })
+    .addCase("allUserFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    
     .addCase("clearErrors", (state) => {
         state.error = null;
       });

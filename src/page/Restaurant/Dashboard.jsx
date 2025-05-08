@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { LiaShoppingBagSolid } from "react-icons/lia";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { RiShoppingBag3Line } from "react-icons/ri";
-import {orderData} from "../../data/Order"
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,20 +14,29 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useSelector } from "react-redux";
 
-
 const Dashboard = () => {
-  const {user} = useSelector((state)=> state.user);
-  const {menuItems} = useSelector((state)=> state.menu);
-    const recentOrders = orderData.slice(0,5).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    const totalmenu = menuItems.length;
-    const totalOrder = orderData.length;
-    const pendingorder = orderData.filter((order)=> order.status === "Pending").length;
+  const { user } = useSelector((state) => state.user);
+  const { menuItems } = useSelector((state) => state.menu);
+  const { orders } = useSelector((state) => state.order);
+
+  const recentOrders = orders
+    .slice(0, 5)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  const totalmenu = menuItems.length;
+  const totalOrder = orders.length;
+  const pendingorder = orders.filter(
+    (order) => order.status === "Pending"
+  ).length;
+
   return (
     <div className=" flex font-outfit">
       <Sidebar />
       <div className="w-[77%] ml-[23%] mt-8 mb-10 pr-6">
         <div className=" w-full bg-green-600 text-white p-4  rounded-md flex items-center justify-end gap-2">
-          <h1 className=" font-semibold"> {user?.restaurantName?.toUpperCase()}</h1>
+          <h1 className=" font-semibold">
+            {" "}
+            {user?.restaurantName?.toUpperCase()}
+          </h1>
           <FaUserCircle size={28} />
         </div>
         <div className="flex flex-wrap gap-6 mt-8 mb-8">
@@ -84,80 +92,94 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="mt-10">
-            <h1 className=" font-semibold text-xl mb-10"> Recent Orders</h1>
-            <Paper sx={{ width: "100%", overflow: "hidden" }}>
-              <TableContainer sx={{ maxHeight: 500 }}>
-                <Table stickyHeader aria-label="sticky table">
-                  <TableHead
-                   sx={{
+          <h1 className=" font-semibold text-xl mb-10"> Recent Orders</h1>
+          <Paper sx={{ width: "100%", overflow: "hidden" }}>
+            <TableContainer sx={{ maxHeight: 500 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead
+                  sx={{
                     bgcolor: "",
                     fontWeight: "bold",
                     fontSize: "19px",
                     color: "black",
                   }}
-                  >
-                    <TableRow>
-                      <TableCell
-                       className="text-white font-semibold"
-                       sx={{
-                         bgcolor: "#16a34a",
-                         fontWeight: "bold",
-                         fontSize: "19px",
-                         color: "white",
-                       }}
-                      >S.No</TableCell>
-                      <TableCell
-                       className="text-white font-semibold"
-                       sx={{
-                         bgcolor: "#16a34a",
-                         fontWeight: "bold",
-                         fontSize: "19px",
-                         color: "white",
-                       }}
-                      >Order Item</TableCell>
-                      <TableCell
-                       className="text-white font-semibold"
-                       sx={{
-                         bgcolor: "#16a34a",
-                         fontWeight: "bold",
-                         fontSize: "19px",
-                         color: "white",
-                       }}
-                      >Order Time</TableCell>
-                      <TableCell
-                       className="text-white font-semibold"
-                       sx={{
-                         bgcolor: "#16a34a",
-                         fontWeight: "bold",
-                         fontSize: "19px",
-                         color: "white",
-                       }}
-                      >Table</TableCell>
-                      <TableCell
-                       className="text-white font-semibold"
-                       sx={{
-                         bgcolor: "#16a34a",
-                         fontWeight: "bold",
-                         fontSize: "19px",
-                         color: "white",
-                       }}
-                      >Total Amount</TableCell>
-                      <TableCell
-                       className="text-white font-semibold"
-                       sx={{
-                         bgcolor: "#16a34a",
-                         fontWeight: "bold",
-                         fontSize: "19px",
-                         color: "white",
-                       }}
-                      >Status</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {recentOrders.map((order,index) => (
+                >
+                  <TableRow>
+                    <TableCell
+                      className="text-white font-semibold"
+                      sx={{
+                        bgcolor: "#16a34a",
+                        fontWeight: "bold",
+                        fontSize: "19px",
+                        color: "white",
+                      }}
+                    >
+                      S.No
+                    </TableCell>
+                    <TableCell
+                      className="text-white font-semibold"
+                      sx={{
+                        bgcolor: "#16a34a",
+                        fontWeight: "bold",
+                        fontSize: "19px",
+                        color: "white",
+                      }}
+                    >
+                      Order Item
+                    </TableCell>
+                    <TableCell
+                      className="text-white font-semibold"
+                      sx={{
+                        bgcolor: "#16a34a",
+                        fontWeight: "bold",
+                        fontSize: "19px",
+                        color: "white",
+                      }}
+                    >
+                      Order Time
+                    </TableCell>
+                    <TableCell
+                      className="text-white font-semibold"
+                      sx={{
+                        bgcolor: "#16a34a",
+                        fontWeight: "bold",
+                        fontSize: "19px",
+                        color: "white",
+                      }}
+                    >
+                      Table No
+                    </TableCell>
+                    <TableCell
+                      className="text-white font-semibold"
+                      sx={{
+                        bgcolor: "#16a34a",
+                        fontWeight: "bold",
+                        fontSize: "19px",
+                        color: "white",
+                      }}
+                    >
+                      Total Amount
+                    </TableCell>
+                    <TableCell
+                      className="text-white font-semibold"
+                      sx={{
+                        bgcolor: "#16a34a",
+                        fontWeight: "bold",
+                        fontSize: "19px",
+                        color: "white",
+                      }}
+                    >
+                      Status
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {recentOrders && recentOrders.length > 0 ? (
+                    recentOrders.map((order, index) => (
                       <TableRow key={order.id}>
-                        <TableCell>{index+1}</TableCell>
-                        <TableCell> <div className="flex flex-col gap-1 text-sm">
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell>
+                          <div className="flex flex-col gap-1 text-sm">
                             {order.items.map((orderItem, idx) => (
                               <div key={idx} className="flex justify-between">
                                 <span>
@@ -165,12 +187,12 @@ const Dashboard = () => {
                                 </span>
                               </div>
                             ))}
-                          </div></TableCell>
-                        <TableCell><div className="flex text-[15px]">
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex text-[15px]">
                             {(() => {
-                              // if the user provided a time, turn "08:57" into a valid full ISO:
                               const timeString = order.createdAt;
-
                               const dateObj = new Date(timeString);
                               return dateObj.toLocaleTimeString([], {
                                 hour: "2-digit",
@@ -178,11 +200,13 @@ const Dashboard = () => {
                                 hour12: true,
                               });
                             })()}
-                          </div></TableCell>
-                        <TableCell>3</TableCell>
+                          </div>
+                        </TableCell>
+                        <TableCell>{order.tableNo}</TableCell>
                         <TableCell>Rs {order.totalPrice}</TableCell>
-                        <TableCell> <button
-                           
+
+                        <TableCell>
+                          <button
                             className={`${
                               order.status === "Pending"
                                 ? "text-red-500 text-[15px]"
@@ -190,13 +214,21 @@ const Dashboard = () => {
                             }`}
                           >
                             {order.status}
-                          </button></TableCell>
+                          </button>
+                        </TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Paper>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={7} align="center">
+                        No Data Found
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
         </div>
       </div>
     </div>

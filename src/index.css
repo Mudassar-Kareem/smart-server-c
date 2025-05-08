@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* This CSS hides elements with the 'print-hidden' class when printing */
+@media print {
+    .print-hidden {
+      display: none;
+    }
+  }
+  
