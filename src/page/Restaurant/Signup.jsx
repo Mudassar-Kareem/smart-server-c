@@ -100,11 +100,12 @@ const Signup = () => {
                   className="w-full appearance-none pl-9 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
                 >
                   <option value="">Select Restaurant Type</option>
-                  <option value="Shop">Shop</option>
-                  <option value="Cafe">Cafe</option>
+                  <option value="DesiCuisine">Desi Cuisine</option>
+                  <option value="BBQ">BBQ</option>
                   <option value="FastFood">Fast Food</option>
-                  <option value="FineDining">Fine Dining</option>
-                  <option value="Bakery">Bakery</option>
+                  <option value="SeafoodPlace">Seafood Place</option>
+                  <option value="Cafe">Cafe</option>
+                  <option value="Other">Other</option>
                 </select>
                 <IoRestaurantOutline
                   className="absolute left-3 top-2.5 text-gray-600"
