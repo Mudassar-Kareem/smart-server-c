@@ -11,6 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const [loading,setLoading] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = (e) =>{
     e.preventDefault();
@@ -82,9 +83,10 @@ const Login = () => {
           </div>
           <button
           type="submit"
-            className="w-full bg-green-500 text-white py-2 rounded-full hover:bg-green-600 transition duration-200"
-          >
-            Login
+          disabled={loading}
+          className={`w-full py-2 rounded-full bg-green-500 text-white font-semibold  ${loading ? 'bg-green-300 cursor-not-allowed' : 'bg-green-500 hover:bg-green-700'}` }
+        >
+          {loading ? "Loging ..." : "Log In"}
           </button>
           <div className="text-center mt-6">
             <span className="text-sm text-gray-600">

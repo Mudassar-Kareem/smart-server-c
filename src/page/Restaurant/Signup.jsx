@@ -23,6 +23,7 @@ const Signup = () => {
   const [visible, setVisible] = useState(false);
   const [vis, setVis] = useState(false);
   const navigate = useNavigate();
+  const [loading,setLoading] = useState(false)
 
   const handleSubmit = (e) =>{
     e.preventDefault();
@@ -241,9 +242,10 @@ const Signup = () => {
                 </button>
                 <button
                   type="submit"
-                  className="w-[33%] py-2 rounded-full bg-green-500 text-white font-semibold"
+                  disabled={loading}
+                  className={`w-[33%] py-2 rounded-full bg-green-500 text-white font-semibold  ${loading ? 'bg-green-300 cursor-not-allowed' : 'bg-green-500 hover:bg-green-700'}` }
                 >
-                  Sign Up
+                  {loading ? "Signing up..." : "Sign up"}
                 </button>
               </div>
             </>
